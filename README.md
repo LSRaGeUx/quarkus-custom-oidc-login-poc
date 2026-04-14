@@ -14,8 +14,26 @@ The goal is to provide a seamless branded login experience while still leveragin
 
 ## Prerequisites
 
--   A running OIDC provider (e.g., Keycloak)
--   Configured `actual.provider.authorization.url` in `application.properties`
+-   Docker installed (to run Keycloak)
+-   Java 17+
+-   Maven
+
+### Running Keycloak
+
+If you don't have an OIDC provider, you can start a Keycloak container:
+
+```bash
+docker run --name keycloak -p 8180:8080 \
+  -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin \
+  quay.io/keycloak/keycloak:24.0.0 start-dev
+```
+
+1. Access Keycloak at `http://localhost:8180`.
+2. Create a realm named `myrealm`.
+3. Create a client named `myclient`.
+4. Set "Client authentication" to `On`.
+5. Add `http://localhost:8080/*` to "Valid redirect URIs".
+6. In the "Credentials" tab, copy the "Client secret" and update `src/main/resources/application.properties`.
 
 ## Running the POC
 
